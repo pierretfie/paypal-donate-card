@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 function App() {
-  const [donationAmount, setDonationAmount] = useState("10.00");
+  const [donationAmount, setDonationAmount] = useState("");
   
   // Debug: Log the client ID to console
   console.log("PayPal Client ID:", process.env.REACT_APP_PAYPAL_CLIENT_ID);
