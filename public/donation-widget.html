@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Developer Donation Widget</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: transparent;
+            padding: 20px;
+        }
+
+        .donation-widget {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 30px;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .donation-widget::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .donation-widget-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .donation-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .donation-description {
+            color: #b8c5d6;
+            margin-bottom: 25px;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .amount-section {
+            margin-bottom: 25px;
+        }
+
+        .amount-label {
+            display: block;
+            color: #ffd700;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .preset-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .preset-button {
+            padding: 8px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #b8c5d6;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .preset-button:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .preset-button.active {
+            background: rgba(255, 215, 0, 0.2);
+            border-color: rgba(255, 215, 0, 0.5);
+            color: #ffd700;
+        }
+
+        .amount-input {
+            width: 100%;
+            max-width: 200px;
+            padding: 12px 16px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px dashed rgba(255, 215, 0, 0.5);
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            outline: none;
+            transition: all 0.3s ease;
+            cursor: text;
+        }
+
+        .amount-input:focus {
+            border-color: rgba(255, 215, 0, 0.8);
+            border-style: solid;
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.2);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .amount-input.valid {
+            border-color: rgba(255, 215, 0, 0.6);
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        }
+
+        .paypal-buttons-container {
+            margin-top: 20px;
+        }
+
+        /* Responsive design */
+        @media (max-width: 480px) {
+            .donation-widget {
+                margin: 10px;
+                padding: 25px 20px;
+            }
+            
+            .donation-title {
+                font-size: 20px;
+            }
+            
+            .donation-description {
+                font-size: 14px;
+            }
+        }
+
+        /* For iframe embedding */
+        html, body {
+            height: auto;
+            min-height: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="donation-widget">
+        <div class="donation-widget-content">
+            <h2 class="donation-title">✨ Support Developer</h2>
+            <p class="donation-description">
+                Help promote amazing projects and support the developer's journey
+            </p>
+            
+            <div class="amount-section">
+                <label class="amount-label">Enter amount to donate (USD)</label>
+                <p style="color: #9ca3af; font-size: 12px; margin-bottom: 15px; font-style: italic;">
+                    💡 Click presets or type any custom amount (e.g., $2, $15.50, $100)
+                </p>
+                <div class="preset-buttons">
+                    <button class="preset-button" data-amount="5.00">$5.00</button>
+                    <button class="preset-button active" data-amount="10.00">$10.00</button>
+                    <button class="preset-button" data-amount="25.00">$25.00</button>
+                    <button class="preset-button" data-amount="50.00">$50.00</button>
+                </div>
+                <input 
+                    type="text" 
+                    id="donation-amount" 
+                    class="amount-input valid" 
+                    value="10.00" 
+                    placeholder="Enter amount to donate"
+                />
+            </div>
+            
+            <div id="paypal-button-container" class="paypal-buttons-container"></div>
+        </div>
+    </div>
+
+    <script src="https://www.paypal.com/sdk/js?client-id=ATp7BmBi5bOrM63tMAG6vlF2G-zCtyET-gL2KAGsNJa0VtKYTpx9OR7GrtfFd82Dw2tvBELpa_WJegzb&currency=USD&intent=capture"></script>
+    <script>
+        let donationAmount = '10.00';
+        
+        // Handle preset button clicks
+        document.querySelectorAll('.preset-button').forEach(button => {
+            button.addEventListener('click', function() {
+                const amount = this.dataset.amount;
+                setAmount(amount);
+            });
+        });
+        
+        // Handle amount input
+        const amountInput = document.getElementById('donation-amount');
+        amountInput.addEventListener('input', function() {
+            const value = this.value;
+            if (value === '' || /^\d*\.?\d{0,2}$/.test(value)) {
+                donationAmount = value;
+                updateInputValidation();
+            } else {
+                this.value = donationAmount;
+            }
+        });
+        
+        function setAmount(amount) {
+            donationAmount = amount;
+            amountInput.value = amount;
+            
+            // Update active button
+            document.querySelectorAll('.preset-button').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.amount === amount) {
+                    btn.classList.add('active');
+                }
+            });
+            
+            updateInputValidation();
+        }
+        
+        function updateInputValidation() {
+            const amount = parseFloat(donationAmount);
+            if (amount && amount > 0) {
+                amountInput.classList.add('valid');
+            } else {
+                amountInput.classList.remove('valid');
+            }
+        }
+
+        paypal.Buttons({
+            style: {
+                layout: 'vertical',
+                color: 'gold',
+                shape: 'rect',
+                label: 'donate'
+            },
+            createOrder: async function() {
+                try {
+                    const amount = parseFloat(donationAmount);
+                    if (!amount || amount <= 0) {
+                        throw new Error('Please enter a valid donation amount');
+                    }
+                    
+                    const response = await fetch('http://localhost:5000/api/orders', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ amount: amount.toFixed(2) })
+                    });
+                    const order = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(order.error || 'Failed to create order');
+                    }
+                    
+                    return order.id;
+                } catch (error) {
+                    console.error('Error creating order:', error);
+                    throw error;
+                }
+            },
+            onApprove: async function(data) {
+                try {
+                    const response = await fetch(`http://localhost:5000/api/orders/${data.orderID}/capture`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+                    const details = await response.json();
+                    
+                    if (!response.ok) {
+                        throw new Error(details.error || 'Failed to capture payment');
+                    }
+                    
+                    alert('✅ Thank you for your donation, ' + details.payer.name.given_name + '! Your support helps promote the developer.');
+                } catch (error) {
+                    console.error('Error capturing payment:', error);
+                    alert('❌ Payment failed: ' + error.message);
+                }
+            },
+            onError: function(err) {
+                console.error('PayPal Checkout onError', err);
+                alert('❌ PayPal Error: ' + (err.message || JSON.stringify(err)));
+            }
+        }).render('#paypal-button-container');
+    </script>
+</body>
+</html>
