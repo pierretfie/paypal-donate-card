@@ -172,7 +172,10 @@ function App() {
                 ))}
               </div>
               <input
-                type="text"
+                type="number"
+                inputMode="decimal"
+                step="0.01"
+                min="0"
                 value={donationAmount}
                 onChange={handleAmountChange}
                 placeholder="Enter amount to donate"
