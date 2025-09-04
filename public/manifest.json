@@ -1,9 +1,15 @@
 {
-  "short_name": "donate card",
-  "name": "donate card",
-  "icons": [],
+  "short_name": "Donate Card",
+  "name": "PayPal Donate Card",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#1a1a2e",
+  "background_color": "#0a0a0a"
 }
