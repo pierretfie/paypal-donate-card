@@ -211,7 +211,7 @@ function App() {
                     throw new Error("Please enter a valid donation amount");
                   }
                   
-                  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+                  const apiUrl = (process.env.REACT_APP_API_URL || "http://localhost:5000").replace(/\/$/, '');
                   const res = await fetch(`${apiUrl}/api/orders`, { 
                     method: "POST",
                     headers: {
@@ -233,7 +233,7 @@ function App() {
               }}
               onApprove={async (data) => {
                 try {
-                  const apiUrl = process.env.REACT_APP_API_URL || "http://localhost:5000";
+                  const apiUrl = (process.env.REACT_APP_API_URL || "http://localhost:5000").replace(/\/$/, '');
                   const res = await fetch(`${apiUrl}/api/orders/${data.orderID}/capture`, {
                     method: "POST"
                   });
